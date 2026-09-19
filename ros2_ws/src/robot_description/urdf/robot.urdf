@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<robot name="kicking_robot">
+
+  <!-- ==================== LINKS ==================== -->
+
+  <!-- Base: flat plate sitting on ground -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.15 0.1 0.01"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- Thigh: 75mm hanging straight down -->
+  <link name="thigh_link">
+    <visual>
+      <origin xyz="0 0 -0.0375" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.02 0.075"/>
+      </geometry>
+      <material name="white">
+        <color rgba="0.95 0.95 0.95 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- Shin: 79mm hanging straight down -->
+  <link name="shin_link">
+    <visual>
+      <origin xyz="0 0 -0.0395" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.018 0.018 0.079"/>
+      </geometry>
+      <material name="white">
+        <color rgba="0.95 0.95 0.95 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- Foot: flat, offset forward slightly -->
+  <link name="foot_link">
+    <visual>
+      <origin xyz="0.02 0 -0.009" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.06 0.03 0.018"/>
+      </geometry>
+      <material name="dark">
+        <color rgba="0.3 0.3 0.3 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- ==================== JOINTS ==================== -->
+
+  <!-- Base to thigh: raise hip to full leg height above ground -->
+
+  <!-- Hip: swings forward/back around y axis for kicking motion -->
+  <joint name="hip_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="thigh_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="1.0"/>
+  </joint>
+
+  <!-- Knee: bends around X axis -->
+  <joint name="knee_joint" type="revolute">
+    <parent link="thigh_link"/>
+    <child link="shin_link"/>
+    <origin xyz="0 0 -0.079" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0" upper="1.57" effort="10" velocity="1.0"/>
+  </joint>
+
+    <joint name="ankle_joint" type="revolute">
+      <parent link="shin_link"/>
+      <child link="foot_link"/>
+      <origin xyz="0 0 -0.079" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="-0.35" upper="0.35" effort="10" velocity="1.0"/>
+    </joint>
+
+</robot>
